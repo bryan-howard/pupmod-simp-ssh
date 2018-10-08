@@ -133,6 +133,8 @@
 #   @see man page for sshd_config
 # @param kerberosauthentication
 #   @see man page for sshd_config
+# @param maxauthtries
+#   @see man page for sshd_config
 # @param permituserenvironment
 #   @see man page for sshd_config
 # @param protocol
@@ -172,6 +174,7 @@ class ssh::server::conf (
   Simplib::Host                    $listenaddress                   = '0.0.0.0',
   Simplib::Port                    $port                            = 22,
   Optional[Array[String]]          $macs                            = undef,
+  Integer                          $maxauthtries                    = 6,
   Optional[Boolean]                $passwordauthentication          = undef,
   Boolean                          $permitemptypasswords            = false,
   Ssh::PermitRootLogin             $permitrootlogin                 = false,
@@ -304,6 +307,7 @@ class ssh::server::conf (
   sshd_config { 'IgnoreUserKnownHosts'            : value => ssh::config_bool_translate($ignoreuserknownhosts) }
   sshd_config { 'ListenAddress'                   : value => $listenaddress }
   sshd_config { 'MACs'                            : value => $_macs }
+  sshd_config { 'MaxAuthTries'                    : value => to_string($maxauthtries) }
   sshd_config { 'PermitEmptyPasswords'            : value => ssh::config_bool_translate($permitemptypasswords) }
   sshd_config { 'PermitRootLogin'                 : value => ssh::config_bool_translate($permitrootlogin) }
   sshd_config { 'PermitUserEnvironment'           : value => ssh::config_bool_translate($permituserenvironment) }
